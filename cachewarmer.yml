@@ -1,0 +1,21 @@
+name: Cache Warmer
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Var sjätte timme
+  workflow_dispatch:
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install feedparser requests
+      - name: Run cache warmer
+        run: python cachewarmer.py
